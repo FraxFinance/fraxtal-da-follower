@@ -1,0 +1,22 @@
+services:
+  ipfs:
+    image: ipfs/kubo:v0.28.0
+    restart: unless-stopped
+    environment:
+      IPFS_PATH: /data
+    ports:
+      - 4001:4001
+    volumes:
+      - ./ipfs-data:/data
+  fraxtal-da-follower:
+    image: ghcr.io/fraxfinance/fraxtal-da-follower:1.0.0
+    restart: unless-stopped
+    depends_on:
+      - ipfs
+    command:
+      - fraxtal-da-follower
+      - --ipfs-endpoint=http://ipfs:5001
+      - --last-block-path=/data/last-block
+      - --debug
+    volumes:
+      - ./follower-data:/data
