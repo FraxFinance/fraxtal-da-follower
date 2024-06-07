@@ -1,0 +1,6 @@
+version: 2
+
+builds:
+  - binary: fraxtal-da-follower
+    env:
+      - CGO_ENABLED=0 # To generate static builds
